@@ -1,0 +1,83 @@
+<div class='container'>
+<div class='col-xs-12 col-md-8 col-md-offset-2' style='background-color: #fdfdfd;'>
+<form action='create_entry' method='post'>
+    <br>
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    <div class="form-group">
+      <label for="client">Client:</label>
+      <select name='task[client_id]' class="form-control" id="client" placeholder='select client...'>
+        <option value="" disabled selected>Select the client...</option>
+        <%@clients.each do |client|%>
+            <option value='<%=client.id%>'><%=client.name%></option>
+        <%end%>
+      </select>
+    </div>
+    <br>
+    
+    <div class="form-group">
+      <label for="project">Project:</label>
+      <select name='task[project_id]' class="form-control" id="project" disabled>
+        <option value="" disabled selected>Select the project...</option>
+      </select>
+    </div>
+    <br>
+    
+    <div class="form-group">
+      <label for="activity">Activity:</label>
+      <select name='task[activity_id]' class="form-control" id="activity" disabled>
+        <option value="" disabled selected>Select the activity...</option>
+      </select>
+    </div>
+    <br>
+    
+    <div class="form-group">
+      <label for="date">Date:</label>
+      <select name='task[date]' class="form-control" id="date">
+        <%[*Date.today-93.days..Date.today].reverse.each do |date|%>
+            <option value='<%=date%>'><%=date%></option>
+        <%end%>
+      </select>
+    </div>
+    <br>
+    
+    <div class="form-group">
+      <label for="hours">Hours:</label>
+      <select name='task[hours]' class="form-control" id="hours">
+        <%@hours=0%>
+        <%200.times do%>
+            <%
+            @hours+=0.25
+            sec = (@hours * 3600).to_i
+            min, sec = sec.divmod(60)
+            hour, min = min.divmod(60)
+            @result="%02d:%02d" % [hour, min]
+            %>
+            <option value='<%=@hours%>'><%=@result%></option>
+        <%end%>
+      </select>
+    </div>
+    <br>
+    
+    <div class="form-group">
+      <label for="notes">Notes (optional):</label>
+      <textarea name='task[notes]' class="form-control" id="notes" style='resize: none; height: 100px;' placeholder='Enter any task specific notes here...' cols='10'></textarea>
+    </div>
+    <br>
+    <div class='text-center'><button class="btn btn-block btn-primary" type="submit">Submit</button></div>
+    <br>
+    <%if flash[:error]%>
+      <div class="alert alert-danger alert-dismissible fade in" role="alert"> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p><%=flash[:error]%></p>
+      </div>
+    <%end%>
+    <%if flash[:notice]%>
+      <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p><%=flash[:notice]%></p>
+      </div>
+    <%end%>
+</form>
+<br>
+</div>
+</div>

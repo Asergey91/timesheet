@@ -1,0 +1,37 @@
+<div class='container-fluid' style='background-color: #fdfdfd;'>
+<%if flash[:notice]%>
+  <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <p><%=flash[:notice]%></p>
+  </div>
+<%end%>
+<form action='' method='get' id='list_task_form'>
+<table class="table" data-toggle="table">
+<thead>
+        <tr>
+        <th data-field="User" data-sortable="true">
+            User
+        </th>
+        <th data-field="Task" data-sortable="true">
+            Current task
+        </th> 
+        <th data-field="Working" data-sortable="true">
+            Working for
+        </th>
+        <th data-field="Status" data-sortable="true">
+            Status
+        </th>
+        </tr>
+        
+<tbody>
+        <%@users.each do |user|%>
+        <tr>
+            <%@activity=Activity.find(user.timer_activity)%>
+            <td><b><%=user.handle%></b> (<%=user.first_name%> <%=user.last_name%>)</td>
+            <td><%='<b>'.html_safe+@activity.client.name+'</b> > <b>'.html_safe+@activity.project.name+'</b> > <b>'.html_safe+@activity.name+'</b>'.html_safe%></td>
+            <td><%=user.timer_status==1 ? ((user.timer_elapsed_time+(Time.now-user.timer_started_at).seconds)/60/60).round(2) : (user.timer_elapsed_time.to_f/60/60).round(2)%> hours</td>
+            <td><b><%=user.timer_status==1 ? '<span style="color: green">Working</span>'.html_safe : '<span style="color: orange">Paused</span>'.html_safe%></b></td>
+        </tr>
+        <%end%>
+</tbody>
+</table>

@@ -1,0 +1,97 @@
+<div class='container'>
+<div class='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4' style='background-color: #fdfdfd;'>
+    <form action='update' method='post'>
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    
+    <h2 class='text-center apoyar'><%=@user.handle%></h2><br>
+    
+    <div class="form-group">
+      <label for="inputFn">First_name:</label>
+      <input name='user[first_name]' type="text" id="inputFn" class="form-control" value='<%=@user.first_name%>'>
+      <br>
+    </div>
+    
+    <div class="form-group">
+      <label for="inputLn">Last_name:</label>
+      <input name='user[last_name]' type="text" id="inputLn" class="form-control" value='<%=@user.last_name%>'>
+      <br>
+    </div>
+    
+    <div class="form-group">
+      <label for="inputEmail">Email:</label>
+      <input name='user[email]' type="text" id="inputEmail" class="form-control" value='<%=@user.email%>'>
+      <br>
+    </div>
+    
+    <div class="form-group">
+      <label for="inputTel">Tel:</label>
+      <input name='user[tel]' type="text" id="inputTel" class="form-control" value='<%=@user.tel%>'>
+      <br>
+    </div>
+    
+    <div class="form-group">
+      <label for="inputWhat">Whatsapp:</label>
+      <input name='user[whatsapp]' type="text" id="inputWhat" class="form-control" value='<%=@user.whatsapp%>'>
+      <br>
+    </div>
+    <%if flash[:notice]%>
+      <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p><%=flash[:notice]%></p>
+      </div>
+    <%end%>
+    <%if flash[:error]%>
+      <div class="alert alert-danger alert-dismissible fade in" role="alert"> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p><%=flash[:error]%></p>
+      </div>
+    <%end%>
+    <div class='text-center'><button class="btn btn-block btn-success" type="submit">Update</button></div>
+</form>
+<br>
+<!-- Button trigger modal -->
+<div class='text-center'><button class="btn btn-block btn-danger" data-toggle="modal" data-target="#myModal">Change password</button></div>
+<br>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Change password</h4>
+      </div>
+      <form action='/user/change_password' method='post'>
+      <div class="modal-body">
+        
+          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          
+          <div class="form-group">
+            <label for="inputOld">Old password:</label>
+            <input name='pass[old]' type="password" id="inputOld" class="form-control" require>
+            <br>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputNew">New password:</label>
+            <input name='pass[new]' type="password" id="inputNew" class="form-control" require>
+            <br>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputRepeat">Repeat new password:</label>
+            <input name='pass[repeat]' type="password" id="inputRepeat" class="form-control" require>
+            
+          </div>
+          
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-danger" value='Change'>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <br><br>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+</div>

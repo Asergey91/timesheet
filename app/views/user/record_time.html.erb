@@ -1,0 +1,103 @@
+<script>
+  var rec=<%=@flag%>;
+  var tmr_sts=<%=@timer_status?@timer_status : 0%>;
+  var elapsed_time=<%=@elapsed_time?@elapsed_time : 0%>;
+  var time_flag=0;
+</script>
+<div class='container'>
+<div class='col-xs-12 col-md-8 col-md-offset-2' style='background-color: #fdfdfd;'>
+    
+   
+    
+    <div class='input-form-task'>
+      
+      
+      
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <div class="form-group">
+        <label for="client">Client:</label>
+        <select name='task[client_id]' class="form-control" id="client" placeholder='select client...'>
+          <option value="<%=@flag?@selected[:client]:''%>" <%=@flag?'':'disabled'%> selected>
+          <%=@flag?Client.find(@selected[:client]).name : 'Select the client...'%>
+          </option>
+          <%@clients.each do |client|%>
+              <option value='<%=client.id%>'><%=client.name%>
+              </option>
+          <%end%>
+        </select>
+      </div>
+      <br>
+      
+      <div class="form-group">
+        <label for="project">Project:</label>
+        <select name='task[project_id]' class="form-control" id="project" disabled>
+          <option value="<%=@flag?@selected[:project]:''%>" <%=@flag?'':'disabled'%> selected><%=@flag?Project.find(@selected[:project]).name : 'Select the project...'%></option>
+        </select>
+      </div>
+      <br>
+      
+      <div class="form-group">
+        <label for="activity">Activity:</label>
+        <select name='task[activity_id]' class="form-control" id="activity" disabled>
+          <option value="<%=@flag?@selected[:activity]:''%>" <%=@flag?'':'disabled'%> selected><%=@flag?Activity.find(@selected[:activity]).name : 'Select the activity...'%></option>
+        </select>
+      </div>
+      <br>
+      <div class='text-center'><button class="btn btn-block btn-primary btn-start" disabled>Start</button></div>
+      
+    </div>
+    <div class='timer-ui'>
+      <div class="timer-btn" style='height: 350px;'>
+        <div class='play-btn' ><span style='font-size: 50px;' class='glyphicon glyphicon-play'></span></div>
+        <div class='resume-btn' ><span style='font-size: 50px;' class='glyphicon glyphicon-play'></span></div>
+        <div class='pause-btn' ><span style='font-size: 50px;' class='glyphicon glyphicon-pause'></span></div>
+        <h4><center>Task time: <b><span style='color: red;' class='task-time-recorded'>00:00:00</span></center></b></h4>
+        <div class='stop-btn'><span style='font-size: 50px;' class='glyphicon glyphicon-stop'></span></div>
+      </div>
+      <br><br>
+      <a class='btn btn-xs btn-primary temp-back pull-left' href=''> << Back </a> <span class='pull-right'>Currently working on <span class='breadcrumb-activity'></span></span>
+    </div>
+    
+    <!--REPORT MODAL-->
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Submit task</h4>
+          </div>
+          <div class="modal-body report-modal">
+            <form class='report-modal-form' action='create_entry' method='post'>
+              <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+              <input type="hidden" name="task[date]" value='<%=Date.today%>'>
+              
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+            <a class="btn btn-danger pull-left" href='cancel_recording'>Cancel recording</a>
+            <button type="submit" class="btn btn-primary">submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--END REPORT MODAL-->
+    
+    <br>
+    <%if flash[:error]%>
+      <div class="alert alert-danger alert-dismissible fade in" role="alert"> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p><%=flash[:error]%></p>
+      </div>
+    <%end%>
+    <%if flash[:notice]%>
+      <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p><%=flash[:notice]%></p>
+      </div>
+    <%end%>
+<br>
+</div>
+</div>

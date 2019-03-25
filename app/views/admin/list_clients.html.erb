@@ -1,0 +1,616 @@
+<div class='container' style='width: 100%'>
+<%if flash[:notice]%>
+  <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <p><%=flash[:notice]%></p>
+  </div>
+<%end%>
+<%if flash[:error]%>
+  <div class="alert alert-danger alert-dismissible fade in" role="alert"> 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <p><%=flash[:error]%></p>
+  </div>
+<%end%>
+<br>
+<p class='text-center'>
+<!--MODAL BUTTON-->
+  <button class='btn btn-success btn-round' data-toggle="modal" data-target="#client_new">Add new client (<%=Client.all.count%>)</button>
+</p>
+<hr>
+<p class='text-center'>
+<%Client.all.each do |client|%>
+  <a id='client_button' href="?client_name=<%=client.name%>" class="btn btn-info <%=params[:client_name]==client.name ? 'btn-fill' : ''%>">
+    <%=client.name%>
+  </a>
+<%end%>
+</p>
+<hr>
+<%=params[:client_name] ? "<h1 class='text-center'><span class='glyphicon glyphicon-chevron-down exButton'></span></h1>".html_safe : ""%>
+<p class='text-center'>
+    <!--ADD NEW CLIENT BUTTON AND MODAL-->
+    
+    <!--MODAL-->
+    <form action='create_client' method='post'>
+      
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    
+    <div class="modal fade" id="client_new" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add client</h4>
+          </div>
+          <div class="modal-body">
+            
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type='text' name='create[client]' class="form-control" id="name" placeholder='Client name goes here...'>
+              </div>
+              
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <br><br>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+</p><br>
+<%if @clients%>
+<%client=@clients%>
+  <div class='row'>
+    <div class='col-xs-12' id='client<%=client.id%>'>
+      <div class='well' style='background-color: #F9F9F9; padding: 5px;'>
+        
+        <!--DELETE CLIENT BUTTON AND MODAL-->
+        <!--MODAL BUTTON-->
+        <div class='row'>
+          <div class='col-xs-12 col-md-6'>
+            <h2 class='text-center bg-primary'>
+              <b>Client:</b> <%=client.name%>
+            </h2>
+          </div>
+          <div class='col-xs-12 col-md-6'>
+            <h2 class='text-center bg-primary'>
+              <button class="btn btn-warning" data-toggle="modal" data-target="#client_edit<%=client.id%>">Edit</button>
+              &nbsp;&nbsp;
+              <button class='btn btn-danger' data-toggle="modal" data-target="#client_del<%=client.id%>">Delete</button>
+            </h2>
+          </div>
+        </div>
+        
+        
+        
+          <!--MODAL FOR DELETING CLIENT-->
+          <form action='delete_client' method='post'>
+            
+          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          
+          <input name="delete[client]" value="<%=client.id%>" type="hidden">
+          
+          <div class="modal fade" id="client_del<%=client.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Delete client</h4>
+                </div>
+                <div class="modal-body">
+                  Are  you sure? Deleting a client will also remove all projects, activities, assignments and tasks associated with it.
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                  <br><br>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+          
+          <!--MODAL FOR EDITING CLIENT-->
+          <form action='edit_client' method='post'>
+            
+          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          
+          <input name="edit[client_id]" value="<%=client.id%>" type="hidden">
+          
+          <div class="modal fade" id="client_edit<%=client.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Edit client</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="edit_client_name">Name:</label>
+                    <input id='edit_client_name' type='text' name='edit[name]' class='form-control' value='<%=client.name%>'>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-info">Save</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <br><br>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+        
+        
+        
+        <hr>
+        <p class='text-center'>
+          
+          <!--ADD PROJECT BUTTON AND MODAL-->
+          <!--MODAL BUTTON-->
+          <button class='btn btn-success btn-round' data-toggle="modal" data-target="#assCW_new<%=client.id%>">Add client-wide assignment</button>
+          <button class='btn btn-success btn-round' data-toggle="modal" data-target="#project_new<%=client.id%>">Add new project(<%=client.projects.size%>)</button>
+          <!--MODAL-->
+          <form action='create_client' method='post'>
+            
+          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          
+          <input name="create[parent_id]" value="<%=client.id%>" type="hidden">
+          
+          <div class="modal fade" id="project_new<%=client.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Add project</h4>
+                </div>
+                <div class="modal-body">
+                  
+                    <div class="form-group">
+                      <label for="name">Name:</label>
+                      <input type='text' name='create[project]' class="form-control" id="name" placeholder='Project name goes here...'>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Add</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <br><br>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+          <!--CLIENT-WIDE ASSIGNMENT MODAL-->
+          
+           <form action='create_client' method='post'>
+                      
+            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+            
+            <input name="create[parent_id]" value="<%=client.id%>" type="hidden">
+            
+            <div class="modal fade" id="assCW_new<%=client.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Assign a user</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <div class="form-group">
+                      <label for="user">User:</label>
+                      <select name='create[client_wide]' class="form-control" id="user">
+                          <%@users.each do |user|%>
+                              <%if client.users.entries.include? user%>
+                              <%elsif user.is_admin?%>
+                              <%else%>
+                                <option value='<%=user.id%>'><%=user.handle+(user.email ? '   |   '+user.email : '')%></option>
+                              <%end%>
+                          <%end%>
+                      </select>
+                    </div>
+                      
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Assign</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <br><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </form>
+        </p><br>
+        <%client.projects.each do |project|%>
+          <div class='row'>
+          <div class='col-xs-12' id='project<%=project.id%>'>
+            <div class='well'  style='background-color: #FbFbFb; padding: 5px;'>
+              <!--DELETE PROJECT BUTTON AND MODAL-->
+              <!--MODAL BUTTON-->
+              <div class='row'>
+                <div class='col-md-6 col-xs-12'>
+                <h3 class='text-center'><b>Project:</b> <%=project.name%></h3>
+                </div>
+                <div class='col-md-6 col-xs-12'>
+                <h3 class='text-center'>
+                <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#collapse_project<%=project.id%>"><span class='glyphicon glyphicon-chevron-down exButton'></span></button>
+                &nbsp;&nbsp;
+                <button class="btn btn-warning" data-toggle="modal" data-target="#project_edit<%=project.id%>">Edit</button>
+                &nbsp;&nbsp;
+                <button class='btn btn-danger' data-toggle="modal" data-target="#project_del<%=project.id%>">Delete</button>
+                </h3>
+                </div>
+              </div>
+              
+              <!--MODAL FOR DELETING PROJECT-->
+              <form action='delete_client' method='post'>
+                
+              <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+              
+              <input name="delete[project]" value="<%=project.id%>" type="hidden">
+              
+              <div class="modal fade" id="project_del<%=project.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Delete project</h4>
+                    </div>
+                    <div class="modal-body">
+                      Are  you sure? Deleting a project will also remove all activities, assignments and tasks associated with it.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-danger">Yes</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                      <br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </form>
+              
+              <!--MODAL FOR EDITING PROJECT-->
+              <form action='edit_client' method='post'>
+                
+              <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+              
+              <input name="edit[project_id]" value="<%=project.id%>" type="hidden">
+              
+              <div class="modal fade" id="project_edit<%=project.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Edit project</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="edit_proj_name">Name:</label>
+                        <input id='edit_proj_name' type='text' name='edit[name]' class='form-control' value='<%=project.name%>'>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-info">Save</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </form>
+              
+              <div id='collapse_project<%=project.id%>' class='collapse'>
+              
+              
+              
+              
+              
+              <hr>
+              <p class='text-center'>
+                
+                
+                <!--ADD PROJECT-WIDE ASSIGNMENT BUTTON AND MODAL-->
+                <!--MODAL BUTTON-->
+                <button class='btn btn-success btn-round' data-toggle="modal" data-target="#assPW_new<%=project.id%>">Add project-wide assignment</button>
+                <!--MODAL BUTTON-->
+                <button class='btn btn-success btn-round' data-toggle="modal" data-target="#activity_new<%=project.id%>">Add new activity (<%=project.activities.size%>)</button>
+                
+                <form action='create_client' method='post'>
+                      
+                    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                    
+                    <input name="create[parent_id]" value="<%=project.id%>" type="hidden">
+                    
+                    <div class="modal fade" id="assPW_new<%=project.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Assign a user</h4>
+                          </div>
+                          <div class="modal-body">
+                            
+                            <div class="form-group">
+                              <label for="user">User:</label>
+                              <select name='create[project_wide]' class="form-control" id="user">
+                                  <%@users.each do |user|%>
+                                      <%if project.users.entries.include? user%>
+                                      <%elsif user.is_admin?%>
+                                      <%else%>
+                                        <option value='<%=user.id%>'><%=user.handle+(user.email ? '   |   '+user.email : '')%></option>
+                                      <%end%>
+                                  <%end%>
+                              </select>
+                            </div>
+                              
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Assign</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <br><br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                
+                
+                <!--ADD ACTIVITY BUTTON AND MODAL-->
+                
+                
+                <!--MODAL-->
+                <form action='create_client' method='post'>
+                  
+                <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                
+                <input name="create[parent_id]" value="<%=project.id%>" type="hidden">
+                
+                <div class="modal fade" id="activity_new<%=project.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Add activity</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+                          <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type='text' name='create[activity]' class="form-control" id="name" placeholder='Activity name goes here...'>
+                          </div>
+                          
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Add</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <br><br>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              
+              
+              </p><br>
+              <%project.activities.each do |activity|%>
+                <div class='row'>
+                <div class='col-xs-12' id='activity<%=activity.id%>'>
+                  <div class='well' style='background-color: #FDFDFD; padding: 5px;'>
+                    
+                    <div class='row'>
+                      <div class='col-xs-12 col-md-6'>
+                        <h4 class='text-center'><b>Activity:</b> <%=activity.name%></h4>
+                      </div>
+                      <div class='col-xs-12 col-md-6'>
+                        <h4 class='text-center'>
+                        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#collapse_activity<%=activity.id%>"><span class='glyphicon glyphicon-chevron-down exButton'></span></button>
+                        &nbsp;&nbsp;
+                        <button class='btn btn-warning' data-toggle="modal" data-target="#activity_edit<%=activity.id%>">Edit</button>
+                        &nbsp;&nbsp;
+                        <button class='btn btn-danger' data-toggle="modal" data-target="#activity_del<%=activity.id%>">Delete</button>
+                        </h4>
+                      </div>
+                    </div>
+                    
+                    <!--MODAL FOR EDITING ACTIVITY-->
+                    <form action='edit_client' method='post'>
+                      
+                    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                    
+                    <input name="edit[activity_id]" value="<%=activity.id%>" type="hidden">
+                    
+                    <div class="modal fade" id="activity_edit<%=activity.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Edit activity</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-group">
+                              <label for="edit_client_name">Name:</label>
+                              <input id='edit_client_name' type='text' name='edit[name]' class='form-control' value='<%=activity.name%>'>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-info">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <br><br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                    
+                    
+                    <!--MODAL FOR DELETING ACTIVITY-->
+                    <form action='delete_client' method='post'>
+                      
+                    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                    
+                    <input name="delete[activity]" value="<%=activity.id%>" type="hidden">
+                    
+                    <div class="modal fade" id="activity_del<%=activity.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Delete activity</h4>
+                          </div>
+                          <div class="modal-body">
+                            Are  you sure? Deleting an activity will also remove all assignments and tasks associated with it.
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            <br><br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                    
+                    
+                    <div id='collapse_activity<%=activity.id%>' class='collapse'>
+                    
+                    <hr>
+                    <!-- ADD ASSIGNMENT BUTTON AND MODAL-->
+                    <p class='text-center'><button class='btn btn-success btn-round' data-toggle="modal" data-target="#ass_new<%=activity.id%>">Add new assignment (<%=activity.assignments.size%>)</button></p><br>
+                    
+                    <!--MODAL-->
+                    <form action='create_client' method='post'>
+                      
+                    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                    
+                    <input name="create[parent_id]" value="<%=activity.id%>" type="hidden">
+                    
+                    <div class="modal fade" id="ass_new<%=activity.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Assign a user</h4>
+                          </div>
+                          <div class="modal-body">
+                            
+                            <div class="form-group">
+                              <label for="user">User:</label>
+                              <select name='create[user_id]' class="form-control" id="user">
+                                <%@users.each do |user|%>
+                                    <%if activity.users.entries.include? user%>
+                                    <%elsif user.is_admin?%>
+                                    <%else%>
+                                      <option value='<%=user.id%>'><%=user.handle+(user.email ? '   |   '+user.email : '')%></option>
+                                    <%end%>
+                                <%end%>
+                              </select>
+                            </div>
+                              
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Assign</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <br><br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                    
+                    
+                    
+                    
+                    
+                    <%counter=-1%>
+                    <%activity.assignments.each do |ass|%>
+                    <%= counter==-1 ? '<div class=row>'.html_safe : ''%>
+                      <div class='col-xs-12 col-md-6' id='ass<%=ass.id%>'>
+                        <div class='well' style='background-color: #FFF; padding: 5px;'>
+                          
+                          <!-- DELETE ASSIGNMENT BUTTON AND MODAL-->
+                          <!--MODAL BUTTON-->
+                          <h5 class='text-center bg-info'><b>User:</b> <%=ass.user.handle%>&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-warning'  data-toggle="modal" data-target="#assignment_del<%=ass.id%>">Remove assignment</button></h5>
+                          
+                          
+                          <!--MODAL-->
+                          <form action='delete_client' method='post'>
+                            
+                          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                          
+                          <input name="delete[assignment]" value="<%=ass.id%>" type="hidden">
+                          
+                          <div class="modal fade" id="assignment_del<%=ass.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title" id="myModalLabel">Delete assignment</h4>
+                                </div>
+                                <div class="modal-body">
+                                  Are  you sure? Deleting an assignment will remove all the tasks associated with it.
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-danger">Yes</button>
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                  <br><br>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </form>
+                          
+                          
+                          
+                          
+                          
+                          
+                          <%result=0%>
+                          <%ass.tasks.each {|t| result=result+t.hours}%>
+                          <table class='table' data-toggle="table">
+                            <thead>
+                              <th></th>
+                              <th></th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>
+                                <b>Total hours:</b> <%=result%>
+                              </td>
+                              <td>
+                                <b>Tasks submitted:</b> <%=ass.tasks.size%>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Email:</b> <%= ass.user.email%>
+                              </td>
+                              <td>
+                                <b>Tel:</b> <%=ass.user.tel%>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                          
+                        </div>
+                      </div>  
+                    <%= counter%2 == 0 ? "</div><div class=row>".html_safe : ""%>
+                    <%counter=counter+1%>
+                    <%end%>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                </div>
+            <%end%>
+              </div>
+              </div>
+            </div>
+          </div>
+      <%end%>
+    </div>
+    </div>
+    <%end%>
+  </div>
+  
+</div>

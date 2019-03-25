@@ -1,0 +1,81 @@
+#body-id{
+    background-color: #fbfbfb;
+    color: #313535;
+}
+.apoyar{
+    color: #398CCB;
+}
+.btn-info:visited{
+    color: #4293CF;
+}
+.btn-fill:visited{
+    color: #fff;
+}
+#forgot_password:hover{
+    background-color: inherit;
+}
+#forgot_password:visited{
+    color: #438BFE;
+}
+.play-btn:hover{
+    background-color: rgba(5, 174, 14,0.5);
+    cursor: pointer;
+    cursor: hand;
+    
+}
+.resume-btn:hover{
+    background-color: rgba(5, 174, 14,0.5);
+    cursor: pointer;
+    cursor: hand;
+}
+.stop-btn:hover{
+    background-color: rgba(255, 59, 48, 0.5);
+    cursor: pointer;
+    cursor: hand;
+    
+}
+.pause-btn:hover{
+    background-color: rgba(255, 149, 0,0.5);
+    cursor: pointer;
+    cursor: hand;
+}
+.play-btn{
+    height: 41%;
+    padding: 50px 0 0 45%;
+    border: 2px solid rgba(22,61,27,0.5);
+    border-radius: 40px 40px 0 0;
+    background-color: rgba(5, 174, 14,1);
+    -webkit-box-shadow: -3px 3px 0px 0px rgba(22,61,27,0.5);
+    -moz-box-shadow: -3px 3px 0px 0px rgba(22,61,27,0.5);
+    box-shadow: -3px 3px 0px 0px rgba(22,61,27,0.5);
+}
+.resume-btn{
+    height: 41%;
+    padding: 50px 0 0 45%;
+    border: 2px solid rgba(22,61,27,0.5);
+    border-radius: 40px 40px 0 0;
+    background-color: rgba(5, 174, 14,1);
+    -webkit-box-shadow: -3px 3px 0px 0px rgba(22,61,27,0.5);
+    -moz-box-shadow: -3px 3px 0px 0px rgba(22,61,27,0.5);
+    box-shadow: -3px 3px 0px 0px rgba(22,61,27,0.5);
+}
+.stop-btn{
+    height: 41%;
+    padding: 50px 0 0 45%;
+    border: 2px solid rgba(59,32,14,0.5);
+    border-radius: 0 0 40px 40px;
+    background-color: rgb(255, 59, 48);
+    -webkit-box-shadow: -3px 3px 0px 0px rgba(59,32,14,0.5);
+    -moz-box-shadow: -3px 3px 0px 0px rgba(59,32,14,0.5);
+    box-shadow: -3px 3px 0px 0px rgba(59,32,14,0.5);
+}
+.pause-btn{
+    height: 41%;
+    padding: 50px 0 0 45%;
+    border: 2px solid rgb(255, 149, 0);
+    border-radius: 40px 40px 0 0;
+    background-color: rgb(255, 149, 0);
+    -webkit-box-shadow: -3px 3px 0px 0px rgba(59,32,14,0.5);
+    -moz-box-shadow: -3px 3px 0px 0px rgba(59,32,14,0.5);
+    box-shadow: -3px 3px 0px 0px rgba(59,32,14,0.5);
+}
